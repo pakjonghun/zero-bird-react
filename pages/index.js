@@ -1,5 +1,12 @@
+import "antd/dist/antd.css";
+import AppLayout from "../components/appLayout";
+
 const Home = () => {
-  return <div>Hellow Next!</div>;
+  return (
+    <AppLayout>
+      <div>home</div>
+    </AppLayout>
+  );
 };
 
 export default Home;
