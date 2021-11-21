@@ -58,10 +58,10 @@ const AppLayout = ({ children }) => {
           회원가입
         </Col>
 
-        <Col xs={24} md={6}>
+        <Col xs={24} md={12}>
           {children}
         </Col>
-        <Col xs={24} md={3}>
+        <Col xs={24} md={6}>
           <a
             href="https://www.naver.com"
             target="_blank"
