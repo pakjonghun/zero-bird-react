@@ -1,18 +1,15 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import UserForm from "./UserForm";
 import LoginForm from "./loginForm";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const { Search } = Input;
 const AppLayout = ({ children }) => {
-  const [loggedIn, setIsLoggedIn] = useState(false);
-
-  const checkLogin = useCallback((login) => {
-    setIsLoggedIn(login);
-  }, []);
+  const loggedIn = useSelector((state) => state.user.isLoggedIn);
 
   return (
     <div>
@@ -48,11 +45,7 @@ const AppLayout = ({ children }) => {
 
       <Row gutter={20}>
         <Col xs={24} md={3}>
-          {loggedIn ? (
-            <UserForm setIsLoggedIn={checkLogin} />
-          ) : (
-            <LoginForm setIsLoggedIn={checkLogin} />
-          )}
+          {loggedIn ? <UserForm /> : <LoginForm />}
         </Col>
         <Col xs={24} md={3}>
           회원가입
