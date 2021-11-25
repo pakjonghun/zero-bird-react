@@ -1,6 +1,7 @@
 import { HYDRATE } from "next-redux-wrapper";
 import user from "./user";
 import post from "./post";
+import comment from "./comment";
 import { combineReducers } from "redux";
 
 export const changeNickname = (data) => {
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   },
   user,
   post,
+  comment,
 });
 
 export default rootReducer;

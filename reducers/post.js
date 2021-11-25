@@ -1,40 +1,44 @@
 const initialState = {
   mainPosts: [
     {
+      createdAt: new Date(),
       User: {
         id: 1,
-        user: {
+        me: {
           id: 1,
           nickname: "pak",
         },
-        content: "첫번째 게시글 #해시 #해시2",
-        Images: [
-          {
-            src: "https://picsum.photos/200/300",
-          },
-          {
-            src: "https://picsum.photos/id/237/200/300",
-          },
-
-          {
-            src: "https://picsum.photos/seed/picsum/200/300",
-          },
-        ],
-        Comments: [
-          {
-            content: "1번댓글",
-            User: {
-              nickname: "pak",
-            },
-          },
-          {
-            content: "2번댓글",
-            User: {
-              nickname: "min",
-            },
-          },
-        ],
+        avatar: "https://picsum.photos/200/300",
       },
+      content: "첫번째 게시글 #해시 #해시2",
+      Images: [
+        {
+          src: "https://picsum.photos/200/300",
+        },
+        {
+          src: "https://picsum.photos/id/237/200/300",
+        },
+
+        {
+          src: "https://picsum.photos/seed/picsum/200/300",
+        },
+      ],
+      Comments: [
+        {
+          content: "1번댓글",
+          User: {
+            nickname: "pak",
+            avatar: "https://picsum.photos/200/300",
+          },
+        },
+        {
+          content: "2번댓글",
+          User: {
+            nickname: "min",
+            avatar: "https://picsum.photos/200/300",
+          },
+        },
+      ],
     },
   ],
   imagePaths: [],
@@ -48,14 +52,16 @@ export const addPost = {
 };
 
 const dummyPost = {
+  createdAt: new Date(),
   id: 2,
   content: "dummy",
   User: {
     id: 1,
-    user: {
+    me: {
       id: 1,
       nickname: "pak",
     },
+    avatar: "https://picsum.photos/200/300",
     Images: [
       {
         src: "https://picsum.photos/200/300",
