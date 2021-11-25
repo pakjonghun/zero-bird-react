@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Skeleton, Switch, Card, Avatar, Button } from "antd";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { loginAction, logoutAction } from "../reducers";
+import { logoutAction } from "../reducers/user";
 
 const { Meta } = Card;
 

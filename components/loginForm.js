@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../reducers";
+import { loginAction } from "../reducers/user";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
