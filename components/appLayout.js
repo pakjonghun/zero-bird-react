@@ -13,7 +13,7 @@ const AppLayout = ({ children }) => {
 
   return (
     <div>
-      <Menu mode={"horizontal"}>
+      <Menu mode="horizontal">
         <Menu.Item>
           <Link href="/">
             <a>홈</a>
@@ -43,12 +43,9 @@ const AppLayout = ({ children }) => {
         </Menu.Item>
       </Menu>
 
-      <Row gutter={20}>
-        <Col xs={24} md={3}>
+      <Row gutter={8}>
+        <Col xs={24} md={6}>
           {loggedIn ? <UserForm /> : <LoginForm />}
-        </Col>
-        <Col xs={24} md={3}>
-          회원가입
         </Col>
 
         <Col xs={24} md={12}>

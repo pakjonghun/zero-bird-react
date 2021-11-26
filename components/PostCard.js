@@ -29,14 +29,14 @@ const PostCard = ({ post }) => {
       <Card
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
-          <RetweetOutlined key="RetweetOutlined" />,
-          <MessageOutlined key="MessageOutlinked" onClick={onToggleComment} />,
+          <RetweetOutlined key="RetweetOutlined1" />,
+          <MessageOutlined key="MessageOutlinked1" onClick={onToggleComment} />,
           linked ? (
-            <HeartTwoTone key="heart" onClick={toggleLinked} />
+            <HeartTwoTone key="heart1" onClick={toggleLinked} />
           ) : (
             <HeartTwoTone
               twoToneColor="#eb2f96"
-              key="heart"
+              key="heart2"
               onClick={toggleLinked}
             />
           ),
@@ -45,17 +45,17 @@ const PostCard = ({ post }) => {
             content={
               <Button.Group>
                 {id && id === post.User.id ? (
-                  <>
+                  <React.Fragment key="meMenu">
                     <Button>수정</Button>
                     <Button type="danger">삭제</Button>
-                  </>
+                  </React.Fragment>
                 ) : (
-                  <Button>신고</Button>
+                  <Button key="meMenu">신고</Button>
                 )}
               </Button.Group>
             }
           >
-            <EllipsisOutlined key="EllipsisOutlined" />
+            <EllipsisOutlined key="EllipsisOutlined1" />
           </Popover>,
         ]}
       >
@@ -67,14 +67,14 @@ const PostCard = ({ post }) => {
       </Card>
       {commentFormOpened && (
         <div>
-          <CommentForm post={post} />
+          {id && <CommentForm post={post} />}
           <List
             header={`${post.Comments.length}개의 댓글`}
             itemLayout={"vertical"}
             bordered
             dataSource={post.Comments}
             renderItem={(item) => (
-              <li>
+              <li key={item.id}>
                 <Comment
                   author={item.User.nickname}
                   avatar={<Avatar src={item.User.avatar} />}

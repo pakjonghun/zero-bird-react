@@ -15,3 +15,4 @@ next-redux-wrapper : 6
 - 1122 : redux 적용 액션 적용한 로그인 로그아웃(redux, react-redux, next-redux-wrapper,redux-devtools-extention)
 - 1125 : 포스트 Add 기능 추가(redux)
 - 1126 : 댓글 기능 작성중(80%), antd 에 너무 매달리지 말자. 공식문서 보고 빠르게 작성!
+- 1127 : 댓글기능 작성(완료), 포스트 이미지 css(80%)

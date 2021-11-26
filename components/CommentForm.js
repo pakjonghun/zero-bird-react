@@ -2,22 +2,22 @@ import React, { useCallback, useState } from "react";
 import PropType from "prop-types";
 import { Button, Input, Form } from "antd";
 import { useDispatch } from "react-redux";
-import { addComment } from "../reducers/comment";
+import { addComment } from "../reducers/post";
+import useInput from "../hooks/useInput";
 
 const CommentForm = ({ post }) => {
+  const [value, onChange] = useInput({ initialValue: "" });
   const dispatch = useDispatch();
-  const [content, setContent] = useState("");
   const onFinish = useCallback(() => {
-    dispatch(addComment(content));
-  }, []);
-  const onCommentChange = useCallback((event) => {
-    setContent(event.target.value);
-  }, []);
+    dispatch(addComment(value, post.id));
+  }, [value]);
 
   return (
     <Form onFinish={onFinish}>
-      <Input onChange={onCommentChange} value={content} />
-      <Button htmlType="submit">댓글달기</Button>
+      <Input.TextArea onChange={onChange} value={value} roew={4} />
+      <Button type="primary" htmlType="submit">
+        댓글달기
+      </Button>
     </Form>
   );
 };

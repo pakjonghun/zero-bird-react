@@ -1,6 +1,7 @@
 const initialState = {
   mainPosts: [
     {
+      id: 1,
       createdAt: new Date(),
       User: {
         id: 1,
@@ -17,10 +18,6 @@ const initialState = {
         },
         {
           src: "https://picsum.photos/id/237/200/300",
-        },
-
-        {
-          src: "https://picsum.photos/seed/picsum/200/300",
         },
       ],
       Comments: [
@@ -44,12 +41,18 @@ const initialState = {
   imagePaths: [],
   postAdded: false,
 };
-
+const ADD_COMMENT = "ADD_COMMENT";
 const ADD_POST = "ADD_POST";
 
 export const addPost = {
   type: ADD_POST,
 };
+
+export const addComment = (content, id) => ({
+  type: ADD_COMMENT,
+  id,
+  content,
+});
 
 const dummyPost = {
   createdAt: new Date(),
@@ -69,10 +72,6 @@ const dummyPost = {
       {
         src: "https://picsum.photos/id/237/200/300",
       },
-
-      {
-        src: "https://picsum.photos/seed/picsum/200/300",
-      },
     ],
     Comments: [
       {
@@ -91,6 +90,13 @@ const dummyPost = {
   },
 };
 
+const dummyComment = {
+  content: "dummy",
+  User: {
+    nickname: "pak",
+  },
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST:
@@ -99,6 +105,23 @@ const reducer = (state = initialState, action) => {
         mainPosts: [dummyPost, ...state.mainPosts],
         postAdded: true,
       };
+
+    case ADD_COMMENT:
+      const newState = state.mainPosts.map((item) => {
+        if (item.id === action.id) {
+          return {
+            ...item,
+            Comments: [
+              { ...dummyComment, content: action.content },
+              ...item.Comments,
+            ],
+          };
+        }
+
+        return item;
+      });
+
+      return { ...state, mainPosts: newState };
     default:
       return state;
   }
