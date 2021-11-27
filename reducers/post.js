@@ -14,9 +14,19 @@ const initialState = {
       content: "첫번째 게시글 #해시 #해시2",
       Images: [
         {
+          id: 1,
           src: "https://picsum.photos/200/300",
         },
         {
+          id: 2,
+          src: "https://picsum.photos/id/237/200/300",
+        },
+        {
+          id: 3,
+          src: "https://picsum.photos/id/237/200/300",
+        },
+        {
+          id: 4,
           src: "https://picsum.photos/id/237/200/300",
         },
       ],
@@ -67,9 +77,19 @@ const dummyPost = {
     avatar: "https://picsum.photos/200/300",
     Images: [
       {
+        id: 1,
         src: "https://picsum.photos/200/300",
       },
       {
+        id: 2,
+        src: "https://picsum.photos/id/237/200/300",
+      },
+      {
+        id: 3,
+        src: "https://picsum.photos/id/237/200/300",
+      },
+      {
+        id: 4,
         src: "https://picsum.photos/id/237/200/300",
       },
     ],

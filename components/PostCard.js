@@ -10,6 +10,7 @@ import PropType from "prop-types";
 import { useSelector } from "react-redux";
 import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
+import PostCardContent from "./PostCardContent";
 
 const PostCard = ({ post }) => {
   const [linked, setLinked] = useState(false);
@@ -62,7 +63,7 @@ const PostCard = ({ post }) => {
         <Card.Meta
           avatar={<Avatar src={post.User.avatar} />}
           title={post.User.me.nickname}
-          description={post.content}
+          description={<PostCardContent content={post.content} />}
         />
       </Card>
       {commentFormOpened && (
