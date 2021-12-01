@@ -1,11 +1,9 @@
-import { HYDRATE } from "next-redux-wrapper";
-import user from "./user";
-import post from "./post";
-import { combineReducers } from "redux";
+import { HYDRATE } from 'next-redux-wrapper';
+import { combineReducers } from 'redux';
+import user from './user';
+import post from './post';
 
-export const changeNickname = (data) => {
-  return { type: "CHANGE_NICKNAME", data };
-};
+export const changeNickname = (data) => ({ type: 'CHANGE_NICKNAME', data });
 
 const rootReducer = combineReducers({
   index: (state = {}, action) => {

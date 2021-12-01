@@ -1,17 +1,23 @@
-import React, { useCallback, useState } from "react";
-import Head from "next/head";
-import AppLayout from "../components/appLayout";
-import { Checkbox, Button, Form, Input } from "antd";
-import useInput from "../hooks/useInput";
-import styled from "styled-components";
+import React, { useCallback, useState } from 'react';
+import Head from 'next/head';
+import { Checkbox, Button, Form, Input } from 'antd';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import useInput from '../hooks/useInput';
+import AppLayout from '../components/appLayout';
+import { signUpAction } from '../reducers/user';
+
 const Signup = () => {
-  const [id, onChangeId] = useInput("");
-  const [nickName, onChangeNickName] = useInput("");
-  const [password, onChangePassword] = useInput("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [email, onChangeEmail] = useInput('');
+  const [nickName, onChangeNickName] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = useState('');
   const [termError, setTermError] = useState(false);
+  const { isSignupLoading } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
   const onChange = useCallback((e) => {
     setTerm(e.target.checked);
     setTermError(!e.target.checked);
@@ -26,21 +32,19 @@ const Signup = () => {
   );
 
   const onSubmit = useCallback(() => {
-    console.log(123);
     switch (true) {
       case password !== passwordConfirm:
         setPasswordError(true);
-        console.log(1);
+
         break;
       case !term:
         setTermError(true);
-        console.log(2);
+
         break;
       default:
-        console.log(3);
+        dispatch(signUpAction({ email, password }));
         break;
     }
-    console.log(id, nickName, password);
   }, [password, passwordConfirm, term]);
 
   return (
@@ -50,9 +54,15 @@ const Signup = () => {
       </Head>
       <Form onFinish={onSubmit}>
         <div>
-          <label htmlFor="user_id">아이디</label>
+          <label htmlFor="user_email">아이디</label>
           <br />
-          <Input name="user_id" value={id} required onChange={onChangeId} />
+          <Input
+            type="email"
+            name="user_email"
+            value={email}
+            required
+            onChange={onChangeEmail}
+          />
         </div>
         <div>
           <label htmlFor="nickName">닉네임</label>
@@ -96,7 +106,9 @@ const Signup = () => {
             <TermErrorMessage>약관에 동의하셔야 합니다.</TermErrorMessage>
           )}
         </div>
-        <Button htmlType="submit">회원가입</Button>
+        <Button htmlType="submit" loading={isSignupLoading}>
+          회원가입
+        </Button>
       </Form>
     </AppLayout>
   );

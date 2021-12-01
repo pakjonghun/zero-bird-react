@@ -1,16 +1,15 @@
-import React from "react";
-import PropType from "prop-types";
-import styled, { createGlobalStyle } from "styled-components";
-import Link from "next/link";
+import React from 'react';
+import PropType from 'prop-types';
+import styled, { createGlobalStyle } from 'styled-components';
+import Link from 'next/link';
 
 const PostCardContent = ({ content }) => {
-  const divided = content.split(/(#[^s#]+)/gi);
-
+  const divided = content.split(/(#[^\s#]+)/gi).map((v) => v.trim());
   return (
     <>
       <Global />
       {divided.map((item, index) => {
-        if (/#[^\s#]+/.test(item)) {
+        if (String(item).includes('#')) {
           return (
             <Hash key={`${item}-${index}`} href="#">
               <a>{item}</a>

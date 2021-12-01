@@ -1,35 +1,33 @@
-import { Button, Input, Form } from "antd";
-import React, { useCallback, useState } from "react";
-import Link from "next/link";
-import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { loginAction } from "../reducers/user";
+import { Button, Input, Form } from 'antd';
+import React, { useCallback, useState } from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction } from '../reducers/user';
+import useInput from '../hooks/useInput';
 
 const LoginForm = () => {
+  const { isLoginLoading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [id, setId] = useState("id");
-  const [password, setPassword] = useState("password");
-
-  const changeId = useCallback((e) => {
-    setId(e.target.value);
-  }, []);
-
-  const changePassword = useCallback((e) => {
-    setPassword(e.target.value);
-    0;
-  }, []);
+  const [email, onChangeEmail] = useInput({ initialValue: 'email' });
+  const [password, changePassword] = useInput({ initialValue: 'password' });
 
   const onSubmit = useCallback(() => {
-    dispatch(loginAction({ id, password }));
-  }, [id, password]);
+    dispatch(loginAction({ email, password }));
+  }, [password, email]);
 
   return (
     <div>
       <Form onFinish={onSubmit}>
         <div>
-          <label htmlFor="userId"> 아이디</label>
+          <label htmlFor="userId"> 이메일</label>
           <br />
-          <Input onChange={changeId} name="userId" value={id} required />
+          <Input
+            onChange={onChangeEmail}
+            name="userId"
+            value={email}
+            required
+          />
         </div>
         <div>
           <label htmlFor="password"> 비번</label>
@@ -43,7 +41,12 @@ const LoginForm = () => {
         </div>
 
         <Buttons style={{ marginTop: 10 }}>
-          <Button type="primary/" htmlType="submit" loading={false}>
+          <Button
+            style={{ marginRight: 10 }}
+            type="primary"
+            htmlType="submit"
+            loading={isLoginLoading}
+          >
             Login
           </Button>
           <Link href="/signup">

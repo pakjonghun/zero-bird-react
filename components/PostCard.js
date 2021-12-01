@@ -1,18 +1,20 @@
-import React, { useCallback, useState } from "react";
-import { Avatar, Button, Card, Popover, List, Comment } from "antd";
+import React, { useCallback, useState } from 'react';
+import { Avatar, Button, Card, Popover, List, Comment } from 'antd';
 import {
   EllipsisOutlined,
   HeartTwoTone,
   MessageOutlined,
   RetweetOutlined,
-} from "@ant-design/icons";
-import PropType from "prop-types";
-import { useSelector } from "react-redux";
-import PostImages from "./PostImages";
-import CommentForm from "./CommentForm";
-import PostCardContent from "./PostCardContent";
+} from '@ant-design/icons';
+import PropType from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import PostImages from './PostImages';
+import CommentForm from './CommentForm';
+import PostCardContent from './PostCardContent';
+import { REMOVE_COMMENT_REQUEST } from '../reducers/post';
 
 const PostCard = ({ post }) => {
+  const dispatch = useDispatch();
   const [linked, setLinked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
@@ -24,7 +26,7 @@ const PostCard = ({ post }) => {
     setCommentFormOpened((pre) => !pre);
   }, [commentFormOpened]);
 
-  const id = useSelector((state) => state.user.me?.id);
+  const { id } = useSelector((state) => state.user);
   return (
     <div>
       <Card
@@ -61,7 +63,7 @@ const PostCard = ({ post }) => {
         ]}
       >
         <Card.Meta
-          avatar={<Avatar src={post.User.avatar} />}
+          avatar={<Avatar src={post.User.me?.avatar} />}
           title={post.User.me.nickname}
           description={<PostCardContent content={post.content} />}
         />
@@ -71,12 +73,13 @@ const PostCard = ({ post }) => {
           {id && <CommentForm post={post} />}
           <List
             header={`${post.Comments.length}개의 댓글`}
-            itemLayout={"vertical"}
+            itemLayout="vertical"
             bordered
             dataSource={post.Comments}
             renderItem={(item) => (
               <li key={item.id}>
                 <Comment
+                  style={{ marginLeft: 10 }}
                   author={item.User.nickname}
                   avatar={<Avatar src={item.User.avatar} />}
                   content={<p>{item.content}</p>}

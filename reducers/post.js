@@ -1,48 +1,64 @@
+import { UserDeleteOutlined } from '@ant-design/icons';
+import shortid from 'shortid';
+
+export const ADDPOST_SUCCESS = 'ADDPOST_SUCCESS';
+export const ADDPOST_FAIL = 'ADDPOST_FAIL';
+export const ADDPOST_REQUEST = 'ADDPOST_REQUEST';
+export const ADDPOST_TO_ME = 'ADDPOST_TO_ME';
+export const ADDCOMMENT_REQUEST = 'ADDCOMMENT_REQUEST';
+export const ADDCOMMENT_SUCCESS = 'ADDCOMMENT_SUCCESS';
+export const ADDCOMMENT_FAIL = 'ADDCOMMENT_FAIL';
+export const ADDCOMMENT_TO_ME = 'ADDCOMMENT_TO_ME';
+export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
+export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
+export const REMOVE_COMMENT_FAIL = 'REMOVE_COMMENT_FAIL';
+export const REMOVE_COMMENT_TO_ME = 'REMOVE_COMMENT_TO_ME';
+
 const initialState = {
   mainPosts: [
     {
       id: 1,
       createdAt: new Date(),
       User: {
-        id: 1,
+        id: shortid.generate(),
         me: {
-          id: 1,
-          nickname: "pak",
+          email: shortid.generate(),
+          nickname: 'pak',
+          avatar: 'https://picsum.photos/200/300',
         },
-        avatar: "https://picsum.photos/200/300",
       },
-      content: "첫번째 게시글 #해시 #해시2",
+      content: '첫번째 게시글 #해시 #해시2',
       Images: [
         {
-          id: 1,
-          src: "https://picsum.photos/200/300",
+          id: shortid.generate(),
+          src: 'https://picsum.photos/200/300',
         },
         {
-          id: 2,
-          src: "https://picsum.photos/id/237/200/300",
+          id: shortid.generate(),
+          src: 'https://picsum.photos/id/237/200/300',
         },
         {
-          id: 3,
-          src: "https://picsum.photos/id/237/200/300",
+          id: shortid.generate(),
+          src: 'https://picsum.photos/id/237/200/300',
         },
         {
-          id: 4,
-          src: "https://picsum.photos/id/237/200/300",
+          id: shortid.generate(),
+          src: 'https://picsum.photos/id/237/200/300',
         },
       ],
       Comments: [
         {
-          content: "1번댓글",
+          content: '1번댓글',
           User: {
-            nickname: "pak",
-            avatar: "https://picsum.photos/200/300",
+            nickname: 'pak',
+            avatar: 'https://picsum.photos/200/300',
           },
         },
         {
-          content: "2번댓글",
+          content: '2번댓글',
           User: {
-            nickname: "min",
-            avatar: "https://picsum.photos/200/300",
+            nickname: 'min',
+            avatar: 'https://picsum.photos/200/300',
           },
         },
       ],
@@ -51,97 +67,155 @@ const initialState = {
   imagePaths: [],
   postAdded: false,
 };
-const ADD_COMMENT = "ADD_COMMENT";
-const ADD_POST = "ADD_POST";
 
-export const addPost = {
-  type: ADD_POST,
-};
-
-export const addComment = (content, id) => ({
-  type: ADD_COMMENT,
-  id,
-  content,
+export const addPost = (data) => ({
+  type: ADDPOST_REQUEST,
+  data,
 });
 
-const dummyPost = {
-  createdAt: new Date(),
-  id: 2,
-  content: "dummy",
-  User: {
-    id: 1,
-    me: {
-      id: 1,
-      nickname: "pak",
-    },
-    avatar: "https://picsum.photos/200/300",
-    Images: [
-      {
-        id: 1,
-        src: "https://picsum.photos/200/300",
-      },
-      {
-        id: 2,
-        src: "https://picsum.photos/id/237/200/300",
-      },
-      {
-        id: 3,
-        src: "https://picsum.photos/id/237/200/300",
-      },
-      {
-        id: 4,
-        src: "https://picsum.photos/id/237/200/300",
-      },
-    ],
-    Comments: [
-      {
-        content: "1번댓글",
-        User: {
-          nickname: "pak",
-        },
-      },
-      {
-        content: "2번댓글",
-        User: {
-          nickname: "min",
-        },
-      },
-    ],
-  },
-};
+export const addComment = (data) => ({
+  type: ADDCOMMENT_REQUEST,
+  data,
+});
 
-const dummyComment = {
-  content: "dummy",
+export const dummyPost = (data) => ({
+  createdAt: new Date(),
+  Images: [
+    {
+      id: shortid.generate(),
+      src: 'https://picsum.photos/200/300',
+    },
+    {
+      id: shortid.generate(),
+      src: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      id: shortid.generate(),
+      src: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      id: shortid.generate(),
+      src: 'https://picsum.photos/id/237/200/300',
+    },
+  ],
+  Comments: [
+    {
+      content: '1번댓글',
+      User: {
+        nickname: 'pak',
+        avatar: 'https://picsum.photos/200/300',
+      },
+    },
+    {
+      content: '2번댓글',
+      User: {
+        nickname: 'min',
+        avatar: 'https://picsum.photos/200/300',
+      },
+    },
+  ],
+
+  User: data.user,
+  id: data.id,
+  content: data.content,
+});
+
+export const dummyComment = (data) => ({
+  id: data.id,
+  content: data.content,
   User: {
-    nickname: "pak",
+    id: data.userId,
+    nickname: 'pak',
+    avatar: 'https://picsum.photos/200/300',
   },
-};
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POST:
+    case ADDPOST_REQUEST:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
-        postAdded: true,
+        addPostDone: false,
+        addPostError: null,
+        addPostLoading: true,
+      };
+    case ADDPOST_SUCCESS:
+      return {
+        ...state,
+        mainPosts: [...state.mainPosts, { ...dummyPost(action.data) }],
+        addPostDone: true,
+        addPostLoading: false,
+      };
+    case ADDPOST_FAIL:
+      return {
+        ...state,
+        addPostError: action.error,
+        addPostLoading: false,
+      };
+    case ADDCOMMENT_REQUEST:
+      return {
+        ...state,
+        addCommentLoading: true,
+        addCommentError: null,
+        addCommentDone: false,
       };
 
-    case ADD_COMMENT:
+    case ADDCOMMENT_SUCCESS:
       const newState = state.mainPosts.map((item) => {
-        if (item.id === action.id) {
+        if (item.id === action.data.postId) {
           return {
             ...item,
-            Comments: [
-              { ...dummyComment, content: action.content },
-              ...item.Comments,
-            ],
+            Comments: [dummyComment(action.data), ...item.Comments],
           };
         }
 
         return item;
       });
 
-      return { ...state, mainPosts: newState };
+      return {
+        ...state,
+        addCommentLoading: false,
+        addCommentDone: true,
+        mainPosts: newState,
+      };
+    case ADDCOMMENT_FAIL:
+      return {
+        ...state,
+        addCommentLoading: false,
+        addCommentError: action.error,
+      };
+
+    case REMOVE_COMMENT_REQUEST:
+      return {
+        ...state,
+        removeCommentLoading: true,
+        removeCommentError: null,
+        removeCommentDone: false,
+      };
+    case REMOVE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        posts: state.mainPosts.map((item) => {
+          if (item.id === action.data.postId) {
+            return {
+              ...item,
+              Comments: item.Comments.filter(
+                (jtem) => jtem.id !== action.data.commentId
+              ),
+            };
+          }
+          return item;
+        }),
+        removeCommentLoading: false,
+        removeCommentDone: true,
+      };
+    case REMOVE_COMMENT_FAIL:
+      return {
+        ...state,
+        removeCommentLoading: false,
+        removeCommentError: action.error,
+      };
+
     default:
       return state;
   }

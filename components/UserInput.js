@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
-import { Input, Form } from "antd";
+import React, { useMemo } from 'react';
+import { Input, Form } from 'antd';
 
 const UserInput = () => {
   const style = useMemo(() => ({ marginTop: 20 }));
 
   const onFinish = () => {
-    console.log("search");
+    console.log('onFinish');
   };
   return (
     <Form onFinish={onFinish} style={style}>
@@ -13,7 +13,7 @@ const UserInput = () => {
         addonBefore="닉네임"
         enterButton="수정"
         allowClear
-        placeholder={"검색"}
+        placeholder="검색"
       />
     </Form>
   );

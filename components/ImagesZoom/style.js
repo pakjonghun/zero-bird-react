@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from "styled-components";
-import { Button } from "antd";
+import styled, { createGlobalStyle } from 'styled-components';
+import { Button } from 'antd';
 
 export const Indicator = styled.div`
   font-size: 15px;

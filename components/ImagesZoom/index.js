@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import PropType from "prop-types";
-import Slick from "react-slick";
+import React, { useState } from 'react';
+import PropType from 'prop-types';
+import Slick from 'react-slick';
 import {
   Overlay,
   Global,
@@ -8,7 +8,7 @@ import {
   CloseBtn,
   SlickWrapper,
   Indicator,
-} from "./style";
+} from './style';
 
 const ImagesZoom = ({ images, onClose }) => {
   const [currentSlice, setCurrentSlice] = useState(0);
@@ -32,7 +32,7 @@ const ImagesZoom = ({ images, onClose }) => {
         >
           {images.map((v) => (
             <div key={v.src}>
-              <img width={"100%"} src={v.src} alt={v.src} />
+              <img width="100%" src={v.src} alt={v.src} />
             </div>
           ))}
         </Slick>
