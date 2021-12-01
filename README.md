@@ -17,3 +17,4 @@ next-redux-wrapper : 6
 - 1126 : 댓글 기능 작성중(80%), antd 에 너무 매달리지 말자. 공식문서 보고 빠르게 작성!
 - 1127 : 댓글기능 작성(완료), 포스트 이미지 css(80%)
 - 1128 : redux-saga 설치 및 이해 연습(sagas 만 작성)
+- 12.1 : redus-saga trace 툴 적용, saga reducer 리팩토링
