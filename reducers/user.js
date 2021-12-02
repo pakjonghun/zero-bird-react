@@ -5,6 +5,7 @@ import {
   dummyPost,
   dummyComment,
   REMOVE_COMMENT_TO_ME,
+  REMOVE_POST_TO_ME,
 } from './post';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -21,7 +22,7 @@ export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
 export const FOLLOW_FAIL = 'FOLLOW_FAIL';
 
 const initialState = {
-  id: 1,
+  id: null,
   me: null,
   avatar: 'https://picsum.photos/200/300',
   isLoggedIn: false,
@@ -95,6 +96,13 @@ const dummyUser = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case REMOVE_POST_TO_ME:
+      return {
+        ...state,
+        me: state.me,
+        posts: state.me.posts.filter((item) => item.id !== action.data.id),
+      };
+
     case REMOVE_COMMENT_TO_ME:
       return {
         ...state,
@@ -152,6 +160,7 @@ const reducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
+        id: shortid.generate(),
         me: dummyUser,
         isLoginLoading: false,
         isLoginDone: true,

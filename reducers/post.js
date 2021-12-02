@@ -1,6 +1,11 @@
 import { UserDeleteOutlined } from '@ant-design/icons';
 import shortid from 'shortid';
 
+export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAIL = 'REMOVE_POST_FAIL';
+export const REMOVE_POST_TO_ME = 'REMOVE_POST_TO_ME';
+
 export const ADDPOST_SUCCESS = 'ADDPOST_SUCCESS';
 export const ADDPOST_FAIL = 'ADDPOST_FAIL';
 export const ADDPOST_REQUEST = 'ADDPOST_REQUEST';
@@ -132,6 +137,29 @@ export const dummyComment = (data) => ({
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case REMOVE_POST_REQUEST:
+      return {
+        ...state,
+        removePostDone: false,
+        removePostLoading: true,
+        removePostError: null,
+      };
+
+    case REMOVE_POST_SUCCESS:
+      return {
+        ...state,
+        mainPosts: state.mainPosts.filter((item) => item.id !== action.data.id),
+        removePostDone: true,
+        removePostLoading: false,
+      };
+
+    case REMOVE_POST_FAIL:
+      return {
+        ...state,
+        removePostError: action.error,
+        removePostLoading: false,
+      };
+
     case ADDPOST_REQUEST:
       return {
         ...state,

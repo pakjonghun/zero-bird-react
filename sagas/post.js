@@ -10,6 +10,10 @@ import {
   ADDCOMMENT_FAIL,
   ADDPOST_TO_ME,
   ADDCOMMENT_TO_ME,
+  REMOVE_POST_REQUEST,
+  REMOVE_COMMENT_FAIL,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_TO_ME,
 } from '../reducers/post';
 
 function addPostApi() {
@@ -30,6 +34,7 @@ function* addPost(action) {
       data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: ADDPOST_FAIL,
       error: error.response.data,
@@ -56,6 +61,7 @@ function* addComment(action) {
       data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: ADDCOMMENT_FAIL,
       error,
@@ -66,7 +72,24 @@ function* addComment(action) {
 function* watchAddComment() {
   yield takeLatest(ADDCOMMENT_REQUEST, addComment);
 }
+function* removePost(action) {
+  try {
+    yield delay(1000);
+    yield put({ type: REMOVE_POST_SUCCESS, data: action.data });
+    yield put({ type: REMOVE_POST_TO_ME, data: action.data });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: REMOVE_COMMENT_FAIL,
+      error,
+    });
+  }
+}
+
+function* watchRemovePost() {
+  yield takeLatest(REMOVE_POST_REQUEST, removePost);
+}
 
 export default function* postSage() {
-  yield all([fork(watchAddPost), fork(watchAddComment)]);
+  yield all([fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost)]);
 }

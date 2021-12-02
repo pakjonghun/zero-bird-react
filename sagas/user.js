@@ -34,6 +34,7 @@ function* login(action) {
       data: action.data,
     });
   } catch (error) {
+    console.error(error);
     yield {
       type: LOGIN_FAIL,
       error: error.response.data,
@@ -58,6 +59,7 @@ function* logout() {
       type: LOGOUT_SUCCESS,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOGOUT_FAIL,
       // data: error.response.data,
@@ -78,6 +80,7 @@ function* signup(action) {
       data: action.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: SIGNUP_FAIL,
       error: error.response.data,
@@ -97,6 +100,7 @@ function* follow(action) {
       data: action.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: FOLLOW_FAIL,
       error: error.response.data,
