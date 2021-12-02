@@ -18,3 +18,4 @@ next-redux-wrapper : 6
 - 1127 : 댓글기능 작성(완료), 포스트 이미지 css(80%)
 - 1128 : redux-saga 설치 및 이해 연습(sagas 만 작성)
 - 12.1 : redus-saga trace 툴 적용, saga reducer 리팩토링
+- 12.2 : immer 도입(처음엔 어색했는데 이거 편하다. _ 보다 더 간결하다.)

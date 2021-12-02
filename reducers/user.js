@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+import produce from 'immer';
 import {
   ADDCOMMENT_TO_ME,
   ADDPOST_TO_ME,
@@ -8,6 +9,9 @@ import {
   REMOVE_POST_TO_ME,
 } from './post';
 
+export const CHANGE_NICKNAME_REQUEST = 'CHANGE_NICKNAME_REQUEST';
+export const CHANGE_NICKNAME_SUCCESS = 'CHANGE_NICKNAME_SUCCESS';
+export const CHANGE_NICKNAME_FAIL = 'CHANGE_NICKNAME_FAIL';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -94,148 +98,107 @@ const dummyUser = {
   ],
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case REMOVE_POST_TO_ME:
-      return {
-        ...state,
-        me: state.me,
-        posts: state.me.posts.filter((item) => item.id !== action.data.id),
-      };
+const reducer = (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case REMOVE_POST_TO_ME:
+        const postIdx = draft.me.posts.findIndex(
+          (item) => item.id === action.data.id
+        );
+        draft.me.posts.splice(postIdx, 1);
+        break;
+      case REMOVE_COMMENT_TO_ME:
+        const removePost = draft.me.posts.find(
+          (item) => item.id === action.data.postId
+        );
+        const commentIdx = removePost.Comments.findIndex(
+          (item) => item.id === action.data.commentId
+        );
 
-    case REMOVE_COMMENT_TO_ME:
-      return {
-        ...state,
-        me: {
-          ...state.me,
-          posts: state.me.posts.map((item) => {
-            if (item.id === action.data.postId) {
-              return {
-                ...item,
-                Comments: item.Comments.filter(
-                  (jtem) => jtem.id !== action.data.commentId
-                ),
-              };
-            }
-            return item;
-          }),
-        },
-      };
-
-    case ADDPOST_TO_ME:
-      return {
-        ...state,
-        me: {
-          ...state.me,
-          posts: [...state.me.posts, dummyPost(action.data)],
-        },
-      };
-
-    case ADDCOMMENT_TO_ME:
-      const posts = state.me.posts.map((item) => {
-        if (item.id === action.data.postId) {
-          return {
-            ...item,
-            Comments: [
-              dummyComment(action.data),
-              ...(item.Comments ? item.Comments : []),
-            ],
-          };
-        }
-        return item;
-      });
-
-      return {
-        ...state,
-        me: {
-          ...state.me,
-          posts,
-        },
-      };
-    case LOGIN_REQUEST:
-      return {
-        ...state,
-        isLoginLoading: true,
-      };
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        id: shortid.generate(),
-        me: dummyUser,
-        isLoginLoading: false,
-        isLoginDone: true,
-      };
-
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        isLoginError: action.error,
-        isLoginLoading: false,
-      };
-
-    case LOGOUT_REQUEST:
-      return {
-        ...state,
-        isLogoutLoading: true,
-      };
-
-    case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        me: null,
-        isLogoutLoading: false,
-        isLoginDone: false,
-      };
-
-    case LOGOUT_FAIL:
-      return {
-        ...state,
-        isLogoutError: action.error,
-        isLogoutLoading: false,
-      };
-
-    case SIGNUP_REQUEST:
-      return {
-        ...state,
-        isSignupError: null,
-        isSignupDone: false,
-        isSignupLoading: true,
-      };
-
-    case SIGNUP_SUCCESS:
-      return {
-        ...state,
-        isSignupDone: true,
-        isSignupLoading: false,
-      };
-    case SIGNUP_FAIL:
-      return {
-        ...state,
-        isSignupError: action.error,
-        isSignupLoading: false,
-      };
-    case FOLLOW_REQUEST:
-      return {
-        ...state,
-        isFollowingError: null,
-        isFollowingDone: false,
-        isFollowingLoading: true,
-      };
-    case FOLLOW_SUCCESS:
-      return {
-        ...state,
-        isFollowingDone: true,
-        isFollowingLoading: false,
-      };
-    case FOLLOW_FAIL:
-      return {
-        ...state,
-        isFollowingError: action.error,
-        isFollowingLoading: false,
-      };
-    default:
-      return state;
-  }
-};
+        removePost.Comments.splice(commentIdx, 1);
+        break;
+      case ADDPOST_TO_ME:
+        draft.me.posts.unshift(dummyPost(action.data));
+        break;
+      case ADDCOMMENT_TO_ME:
+        const addPost = draft.me.posts.find(
+          (item) => item.id === action.data.postId
+        );
+        addPost.Comments.unshift(dummyComment(action.data));
+        break;
+      case LOGIN_REQUEST:
+        draft.isLoginError = null;
+        draft.isLoginLoading = true;
+        draft.isLoginDone = false;
+        break;
+      case LOGIN_SUCCESS:
+        draft.id = shortid.generate();
+        draft.me = dummyUser;
+        draft.isLoginLoading = false;
+        draft.isLoginDone = true;
+        break;
+      case LOGIN_FAIL:
+        draft.isLoginLoading = false;
+        draft.isLoginError = action.error;
+        break;
+      case LOGOUT_REQUEST:
+        draft.isLogoutDone = false;
+        draft.isLogoutLoading = true;
+        draft.isLogoutError = null;
+        break;
+      case LOGOUT_SUCCESS:
+        draft.id = null;
+        draft.me = null;
+        draft.isLogoutLoading = false;
+        draft.isLogoutDone = true;
+        break;
+      case LOGOUT_FAIL:
+        draft.isLogoutLoading = false;
+        draft.isLogoutError = action.error;
+        break;
+      case SIGNUP_REQUEST:
+        draft.isSignupError = null;
+        draft.isSignupDone = false;
+        draft.isSignupLoading = true;
+        break;
+      case SIGNUP_SUCCESS:
+        draft.isSignupDone = true;
+        draft.isSignupLoading = false;
+        break;
+      case SIGNUP_FAIL:
+        draft.isSignupError = action.error;
+        draft.isSignupLoading = false;
+        break;
+      case FOLLOW_REQUEST:
+        draft.isFollowingError = null;
+        draft.isFollowingDone = false;
+        draft.isFollowingLoading = true;
+        break;
+      case FOLLOW_SUCCESS:
+        draft.isFollowingDone = true;
+        draft.isFollowingLoading = false;
+        break;
+      case FOLLOW_FAIL:
+        draft.isFollowingError = action.error;
+        draft.isFollowingLoading = false;
+        break;
+      case CHANGE_NICKNAME_REQUEST:
+        draft.changeNicknameError = null;
+        draft.changeNicknameDone = false;
+        draft.changeNicknameLoading = true;
+        break;
+      case CHANGE_NICKNAME_SUCCESS:
+        draft.me.nickname = action.data.nickname;
+        draft.changeNicknameingDone = true;
+        draft.changeNicknameingLoading = false;
+        break;
+      case CHANGE_NICKNAME_FAIL:
+        draft.changeNicknameError = action.error;
+        draft.changeNicknameLoading = false;
+        break;
+      default:
+        break;
+    }
+  });
 
 export default reducer;

@@ -43,7 +43,9 @@
         "react/no-array-index-key":"off",
         "import/no-extraneous-dependencies":"off",
         "operator-linebreak":"off",
-        "no-sequences":"off"
+        "no-sequences":"off",
+        "consistent-return":"off",
+        "implicit-arrow-linebreak":"off"
 
     }
 }
