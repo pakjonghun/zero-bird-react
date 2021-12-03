@@ -1,5 +1,6 @@
 import shortid from 'shortid';
 import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import {
   ADDCOMMENT_TO_ME,
   ADDPOST_TO_ME,
@@ -46,19 +47,9 @@ const initialState = {
   isSignupLoading: false,
 };
 
-export const loginAction = (data) => ({
-  type: LOGIN_REQUEST,
-  data,
-});
-
-export const logoutAction = () => ({
-  type: LOGOUT_REQUEST,
-});
-
-export const signUpAction = (data) => ({
-  type: SIGNUP_REQUEST,
-  data,
-});
+export const loginAction = createAction(LOGIN_REQUEST);
+export const logoutAction = createAction(LOGOUT_REQUEST);
+export const signUpAction = createAction(SIGNUP_REQUEST);
 
 const dummyUser = {
   email: 1,
@@ -103,28 +94,28 @@ const reducer = (state = initialState, action) =>
     switch (action.type) {
       case REMOVE_POST_TO_ME:
         const postIdx = draft.me.posts.findIndex(
-          (item) => item.id === action.data.id
+          (item) => item.id === action.payload.id
         );
         draft.me.posts.splice(postIdx, 1);
         break;
       case REMOVE_COMMENT_TO_ME:
         const removePost = draft.me.posts.find(
-          (item) => item.id === action.data.postId
+          (item) => item.id === action.payload.postId
         );
         const commentIdx = removePost.Comments.findIndex(
-          (item) => item.id === action.data.commentId
+          (item) => item.id === action.payload.commentId
         );
 
         removePost.Comments.splice(commentIdx, 1);
         break;
       case ADDPOST_TO_ME:
-        draft.me.posts.unshift(dummyPost(action.data));
+        draft.me.posts.unshift(dummyPost(action.payload));
         break;
       case ADDCOMMENT_TO_ME:
         const addPost = draft.me.posts.find(
-          (item) => item.id === action.data.postId
+          (item) => item.id === action.payload.postId
         );
-        addPost.Comments.unshift(dummyComment(action.data));
+        addPost.Comments.unshift(dummyComment(action.payload));
         break;
       case LOGIN_REQUEST:
         draft.isLoginError = null;
@@ -139,7 +130,7 @@ const reducer = (state = initialState, action) =>
         break;
       case LOGIN_FAIL:
         draft.isLoginLoading = false;
-        draft.isLoginError = action.error;
+        draft.isLoginError = action.payload.error;
         break;
       case LOGOUT_REQUEST:
         draft.isLogoutDone = false;
@@ -154,7 +145,7 @@ const reducer = (state = initialState, action) =>
         break;
       case LOGOUT_FAIL:
         draft.isLogoutLoading = false;
-        draft.isLogoutError = action.error;
+        draft.isLogoutError = action.payload.error;
         break;
       case SIGNUP_REQUEST:
         draft.isSignupError = null;
@@ -166,7 +157,7 @@ const reducer = (state = initialState, action) =>
         draft.isSignupLoading = false;
         break;
       case SIGNUP_FAIL:
-        draft.isSignupError = action.error;
+        draft.isSignupError = action.payload.error;
         draft.isSignupLoading = false;
         break;
       case FOLLOW_REQUEST:
@@ -179,7 +170,7 @@ const reducer = (state = initialState, action) =>
         draft.isFollowingLoading = false;
         break;
       case FOLLOW_FAIL:
-        draft.isFollowingError = action.error;
+        draft.isFollowingError = action.payload.error;
         draft.isFollowingLoading = false;
         break;
       case CHANGE_NICKNAME_REQUEST:
@@ -188,12 +179,12 @@ const reducer = (state = initialState, action) =>
         draft.changeNicknameLoading = true;
         break;
       case CHANGE_NICKNAME_SUCCESS:
-        draft.me.nickname = action.data.nickname;
+        draft.me.nickname = action.payload.nickname;
         draft.changeNicknameingDone = true;
         draft.changeNicknameingLoading = false;
         break;
       case CHANGE_NICKNAME_FAIL:
-        draft.changeNicknameError = action.error;
+        draft.changeNicknameError = action.payload.error;
         draft.changeNicknameLoading = false;
         break;
       default:

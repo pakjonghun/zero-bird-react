@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
-import { REMOVE_COMMENT_REQUEST, REMOVE_POST_REQUEST } from '../reducers/post';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const PostCard = ({ post }) => {
   }, [linked]);
 
   const onRemovePost = useCallback(() => {
-    dispatch({ type: REMOVE_POST_REQUEST, data: { id: post.id } });
+    dispatch({ type: REMOVE_POST_REQUEST, payload: { id: post.id } });
   }, []);
 
   const onToggleComment = useCallback(() => {

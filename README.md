@@ -18,4 +18,8 @@ next-redux-wrapper : 6
 - 1127 : 댓글기능 작성(완료), 포스트 이미지 css(80%)
 - 1128 : redux-saga 설치 및 이해 연습(sagas 만 작성)
 - 12.1 : redus-saga trace 툴 적용, saga reducer 리팩토링
-- 12.2 : immer 도입(처음엔 어색했는데 이거 편하다. _ 보다 더 간결하다.)
+- 12.2 : immer 도입(처음엔 어색했는데 이거 편하다. \_ 보다 더 간결하다.)
+- 12.3
+  - redux-toolkit 슬라이스가 너무 인상적이었다. 아직 적용은 안했따 immer create action 이랑 다 미리 적용 해놔서 더 수정할 것이 너무 많았기 때문에다. 처음부터 tool-kit 을 적용 했어야 했는데...
+  - 그리고 react-virtualize 는 버전충돌로 설치가 안되었다. 이건.. 해결방뻡을 찾아야 할듯 하다.
+  - 스크롤 이벤트가 2번 연속 실행이 되서 이벤트를 붙일때 useLayoutEffect 를 사용해서 해결했다.

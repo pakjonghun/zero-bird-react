@@ -7,12 +7,9 @@ import useInput from '../hooks/useInput';
 
 const CommentForm = ({ post }) => {
   const [value, onChange, setValue] = useInput({ initialValue: '' });
-  const userId = useSelector((state) => state.user.me?.email);
-  const { addCommentLoading, addCommentError } = useSelector(
-    (state) => state.post
-  );
-  console.log(addCommentError);
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.me?.email);
+  const { addCommentLoading } = useSelector((state) => state.post);
   const onFinish = useCallback(() => {
     dispatch(addComment({ content: value, postId: post.id, userId }));
   }, [value, userId]);

@@ -1,7 +1,5 @@
 import { all, put, fork, takeLatest, delay } from '@redux-saga/core/effects';
-import ActionButton from 'antd/lib/modal/ActionButton';
 import axios from 'axios';
-import shortid from 'shortid';
 import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
@@ -31,13 +29,13 @@ function* login(action) {
     yield delay(1000);
     yield put({
       type: LOGIN_SUCCESS,
-      data: action.data,
+      payload: action.payload,
     });
   } catch (error) {
     console.error(error);
     yield {
       type: LOGIN_FAIL,
-      error: error.response.data,
+      error,
     };
   }
 }
@@ -62,7 +60,7 @@ function* logout() {
     console.error(error);
     yield put({
       type: LOGOUT_FAIL,
-      // data: error.response.data,
+      error,
     });
   }
 }
@@ -77,13 +75,13 @@ function* signup(action) {
 
     yield yield put({
       type: SIGNUP_SUCCESS,
-      data: action.data,
+      payload: action.payload,
     });
   } catch (error) {
     console.error(error);
     yield put({
       type: SIGNUP_FAIL,
-      error: error.response.data,
+      error,
     });
   }
 }
@@ -97,7 +95,7 @@ function* follow(action) {
     delay(1000);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      payload: action.payload,
     });
   } catch (error) {
     console.error(error);

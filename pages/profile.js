@@ -1,4 +1,5 @@
-import React from 'react';
+import Router from 'next/router';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import UserInput from '../components/UserInput';
@@ -8,6 +9,13 @@ import AppLayout from '../components/appLayout';
 
 const Profile = () => {
   const { me } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!(me && me.email)) {
+      Router.push('/');
+    }
+  }, [me && me.email]);
+
   return (
     <AppLayout>
       <Head>

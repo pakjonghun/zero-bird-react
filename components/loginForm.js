@@ -7,8 +7,8 @@ import { loginAction } from '../reducers/user';
 import useInput from '../hooks/useInput';
 
 const LoginForm = () => {
-  const { isLoginLoading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { isLoginLoading } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput({ initialValue: 'email' });
   const [password, changePassword] = useInput({ initialValue: 'password' });
 
